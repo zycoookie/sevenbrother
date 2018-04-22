@@ -1,7 +1,6 @@
 package me.sevenbrother.server.rabbitmq.factory;
 
-import me.sevenbrother.server.rabbitmq.listener.SevenBrotherMessageListener;
-import me.sevenbrother.server.rabbitmq.message.UserMessageConverter;
+import me.sevenbrother.server.rabbitmq.message.StringMessageReceiver;
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;
 import org.springframework.amqp.core.Queue;
@@ -45,9 +44,9 @@ public class RabbitConfiguration {
 	}
 
 	@Bean
-	MessageListenerAdapter listenerAdapter(SevenBrotherMessageListener receiver, UserMessageConverter messageConverter) {
-		MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter(receiver, "receiveMessage");
-		messageListenerAdapter.setMessageConverter(messageConverter);
+	MessageListenerAdapter listenerAdapter(StringMessageReceiver receiver) {
+		MessageListenerAdapter messageListenerAdapter = new MessageListenerAdapter(receiver, "onReceive");
+//		messageListenerAdapter.setMessageConverter(messageConverter);
 		return messageListenerAdapter;
 	}
 

@@ -11,7 +11,11 @@ public class SevenBrotherEvenPublisher {
     @Autowired
     private RabbitTemplate template;
 
-    public void send(User user){
-        template.convertAndSend("sevenbrother.even",user);
+    public void send(User user) {
+        template.convertAndSend("sevenbrother.even", user);
+    }
+
+    public void sendStringMessage(String message) {
+        template.convertAndSend("sevenbrother.even.exchange","sevenbrother.even", message);
     }
 }

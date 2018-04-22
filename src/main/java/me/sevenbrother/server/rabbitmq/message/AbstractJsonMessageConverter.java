@@ -1,5 +1,6 @@
 package me.sevenbrother.server.rabbitmq.message;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageProperties;
@@ -14,7 +15,13 @@ public abstract class AbstractJsonMessageConverter<T> implements MessageConverte
 
     @Override
     public Message toMessage(Object o, MessageProperties messageProperties) throws MessageConversionException {
-        return null;
+        ObjectMapper objectMapper = new ObjectMapper();
+        try {
+            return new Message(objectMapper.writeValueAsString(o).getBytes(),messageProperties);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 
     @Override
