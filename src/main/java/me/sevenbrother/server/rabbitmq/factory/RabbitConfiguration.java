@@ -1,10 +1,8 @@
 package me.sevenbrother.server.rabbitmq.factory;
 
+import me.sevenbrother.server.rabbitmq.listener.StringMessageListener;
 import me.sevenbrother.server.rabbitmq.message.StringMessageReceiver;
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
@@ -39,7 +37,8 @@ public class RabbitConfiguration {
 		SimpleMessageListenerContainer container = new SimpleMessageListenerContainer();
 		container.setConnectionFactory(connectionFactory);
 		container.setQueueNames(queue);
-		container.setMessageListener(listenerAdapter);
+		container.setMessageListener(new StringMessageListener());
+		container.setAcknowledgeMode(AcknowledgeMode.MANUAL);
 		return container;
 	}
 
